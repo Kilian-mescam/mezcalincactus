@@ -11,28 +11,28 @@ import { insertShowSchema, type insertShowSchemaType } from "@/zod-schemas/show"
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
 import { actionClient } from "@/lib/safe-action"
 
-export const saveProjectAction = actionClient
+export const saveShowAction = actionClient
     .metadata({ actionName: 'saveShowAction'})
     .schema(insertShowSchema, {
         handleValidationErrorsShape: async (ve) => flattenValidationErrors(ve).fieldErrors,
     })
     .action(async ({ 
-        parsedInput: project
+        parsedInput: show
     }: { parsedInput: insertShowSchemaType }) => {
 
-        const { isAuthenticated } = getKindeServerSession()
+        // const { isAuthenticated } = getKindeServerSession()
 
-        const isAuth = await isAuthenticated()
+        // const isAuth = await isAuthenticated()
 
-        if (!isAuth) redirect('/login')
+        // if (!isAuth) redirect('/login')
 
-        if (project.id === 0) {
+        if (show.id === 0) {
             const result = await db.insert(shows).values({
-                name: project.name,
-                placeName: project.placeName,
-                address: project.address,
-                city: project.city,
-                imageUrl: project.imageUrl
+                name: show.name,
+                place: show.place,
+                address: show.address,
+                city: show.city,
+                imageUrl: show.imageUrl ?? ""
             }).returning({ insertedId: shows.id })
 
             return { message: `Show ID #${result[0].insertedId} created successfully`}
@@ -41,13 +41,13 @@ export const saveProjectAction = actionClient
         // Existing customer
         const result = await db.update(shows)
             .set({
-                name: project.name,
-                placeName: project.placeName,
-                address: project.address,
-                city: project.city,
-                imageUrl: project.imageUrl
+                name: show.name,
+                place: show.place,
+                address: show.address,
+                city: show.city,
+                imageUrl: show.imageUrl
             })
-            .where(eq(shows.id, project.id!))
+            .where(eq(shows.id, show.id!))
             .returning({ updatedId: shows.id })
 
         return { message: `Show ID #${result[0].updatedId} updated successfully`}

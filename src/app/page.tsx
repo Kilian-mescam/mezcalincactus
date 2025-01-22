@@ -1,14 +1,12 @@
-import Image from "next/image";
-import Link from "next/link"
+import { ShowsWrapper} from "@/components/layout/ShowsWrapper";
 
 export default function Home() {
   return (
-    <div className="bg-home-img h-screen bg-cover bg-center">
+    <div>
       <main>
-        <div>
-          <h1>hello
-          </h1>
-        </div>
+        <div className='p-5'>
+          <ShowsWrapper />
+      </div>
       </main>
     </div>
   );

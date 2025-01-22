@@ -32,11 +32,13 @@ export default function RootLayout({
   return (
     <html lang="en">
     <body suppressHydrationWarning={true}
-      className={`${geistSans.variable} ${geistMono.variable} antialiased bg-home-img`}
+      className={`${geistSans.variable} ${geistMono.variable} antialiased bg-home-img h-screen bg-cover bg-center`}
     >
       <div className="mx-auto width-full">
         <Header />
+        <div className="mt-32 h-screen">
           {children}
+        </div>
         <Footer />
         <Toaster />
       </div>

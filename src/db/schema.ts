@@ -3,7 +3,7 @@ import { pgTable, serial, varchar, timestamp } from "drizzle-orm/pg-core"
 export const shows = pgTable("shows", {
     id: serial("id").primaryKey(),
     name: varchar("name").notNull(),
-    placeName: varchar("placeName").notNull(),
+    place: varchar("place").notNull(),
     address: varchar("address").notNull(),
     city: varchar("city").notNull(),
     imageUrl: varchar("image_url").notNull(),

@@ -9,7 +9,7 @@ import { insertShowSchema, type insertShowSchemaType, type selectShowSchemaType 
 
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs"
 
-import { saveProjectAction } from "@/app/actions/saveShowAction"
+import { saveShowAction } from "@/app/actions/saveShowAction"
 import { useAction } from 'next-safe-action/hooks'
 import { useToast } from "@/hooks/use-toast"
 import { LoaderCircle } from 'lucide-react'
@@ -21,18 +21,18 @@ type Props = {
 }
 
 export default function ShowForm({ show }: Props) {
-    const { getPermission, getPermissions, isLoading } = useKindeBrowserClient()
-    const isManager = !isLoading && getPermission('manager')?.isGranted
+    // const { getPermission, getPermissions, isLoading } = useKindeBrowserClient()
+    // const isManager = !isLoading && getPermission('manager')?.isGranted
 
-    const permObj = getPermissions()
-    const isAuthorized = !isLoading && permObj.permissions.some(perm => perm === 'manager' || perm === 'admin')
+    // const permObj = getPermissions()
+    // const isAuthorized = !isLoading && permObj.permissions.some(perm => perm === 'manager' || perm === 'admin')
 
     const  { toast } = useToast();
 
     const defaultValues: insertShowSchemaType = {
         id: show?.id ?? 0,
         name: show?.name ?? '',
-        placeName: show?.placeName ?? '',
+        place: show?.place ?? '',
         city: show?.city ?? '',
         address: show?.address ?? '',
         imageUrl: show?.imageUrl ?? ''
@@ -49,7 +49,7 @@ export default function ShowForm({ show }: Props) {
         result: saveResult,
         isPending: isSaving,
         reset: resetSaveAction
-    } = useAction(saveProjectAction, {
+    } = useAction(saveShowAction, {
         onSuccess({ data }) {
             if (data?.message) {
                 toast({
@@ -92,11 +92,15 @@ export default function ShowForm({ show }: Props) {
                         />
                         <InputWithLabel<insertShowSchemaType>
                             fieldTitle="Nom de l'endroit"
-                            nameInSchema="placeName"
+                            nameInSchema="place"
                         />
                         <InputWithLabel<insertShowSchemaType>
                             fieldTitle="Adress"
                             nameInSchema="address"
+                        />
+                        <InputWithLabel<insertShowSchemaType>
+                            fieldTitle="City"
+                            nameInSchema="city"
                         />
                     </div>
 
